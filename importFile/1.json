@@ -1,0 +1,10 @@
+{
+    "name":"Alfonso VI",
+    "id": 1,
+    "sex":"male",
+    "couples": [2, 3],
+    "family": "Jimena",
+    "children": [4, 5],
+    "maintitle": "Kingdom of León",
+    "titles": ["Kingdom of León", "Lord of Salamanca"]
+}

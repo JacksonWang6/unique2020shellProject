@@ -1,0 +1,10 @@
+{
+    "name":"gilda",
+    "id": 6,
+    "sex":"female",
+    "couples": [4],
+    "family": "Dio",
+    "children": [7],
+    "maintitle": "Lord of Night",
+    "titles": ["Lord of Night"]
+}

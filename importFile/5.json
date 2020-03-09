@@ -1,0 +1,7 @@
+{
+    "name":"Alf",
+    "id": 5,
+    "sex":"female",
+    "couples": [4],
+    "children": []
+}

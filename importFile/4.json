@@ -1,0 +1,7 @@
+{
+    "name":"Alfonso VII",
+    "id": 4,
+    "sex":"male",
+    "couples": [5, 6],
+    "children": [7]
+}

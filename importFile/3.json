@@ -1,0 +1,10 @@
+{
+    "name":"claaa",
+    "id": 3,
+    "sex":"female",
+    "couples": [1],
+    "family": "Arsha",
+    "children": [5],
+    "maintitle": "Lord of Satim",
+    "titles": ["Lord of Satim"]
+}
