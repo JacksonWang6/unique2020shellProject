@@ -19,6 +19,8 @@ mainTitleFile="${familyDir}/mainTitleFile.txt"
 touch "${mainTitleFile}"
 finallySuccessorFile="${familyDir}/finallySuccessorFile.txt"
 touch "${finallySuccessorFile}"
+queryFamilyFile="${familyDir}/queryFamilyFile.txt"
+touch "${queryFamilyFile}"
 
 #查询某一个人属于哪一个家族
 #@param: 传入一个参数, 人的id, 因为姓名可能会重复啊
@@ -41,7 +43,12 @@ queryFamily() {
     family=$(grep -i family "${file}" | sed 's/[,"]//g' |awk -F ":" '{print $2}' | sed -e 's/^[ ]*//g' | sed -e 's/[ ]*$//g')
     #如果为空
     if [ -z "${family}" ]; then
-        echo -e "Unknown\n"
+        family=$(grep -i "${id}" "${queryFamilyFile}" | awk -F ":" '{print $2}')
+        if [ -z "${family}" ]; then
+            echo "Unknown"
+        else 
+            echo "${family}"
+        fi
     else 
         echo "${family}"
     fi
@@ -51,7 +58,7 @@ queryFamily() {
 #每个家族保存为一个文件, 每一行包含了一个家族成员的id和name
 exportFamily() {
     #遍历dataDir下面的所有文件
-    flist=$(ls ${dataDir})
+    flist=$(ls "${dataDir}")
     if [ -z "${flist}" ]; then
         echo -e "数据文件夹为空!导出失败!\n"
     fi
@@ -59,12 +66,26 @@ exportFamily() {
     echo -e "正在导出...\n"
     for file in ${flist}; do
         id=${file%%.*}
-        family=$(queryFamily ${id})
+        family=$(grep -i family "${dataDir}/${file}" | sed 's/[,"]//g' |awk -F ":" '{print $2}' | sed -e 's/^[ ]*//g' | sed -e 's/[ ]*$//g')
         name=$(grep -i name "${dataDir}/${file}" | sed 's/[," ]//g' | awk -F ":" '{print $2}' | sed -e 's/^[ ]*//g' | sed -e 's/[ ]*$//g')
+        sex=$(grep -i sex "${dataDir}/${file}" | sed 's/[,"]//g;s/[ ]*//g' | awk -F ":" '{print $2}')
+        children=$(grep -i children "${dataDir}/${file}" | awk -F ":" '{print $2}' | sed 's/[,]/ /g;s/\[//g;s/\]//g' | sed 's/[ ]*/ /g')
+        childrenArr=( ${children} )
         if [ -z "${family}" ]; then
-            wildman="${familyDir}/wildman.txt"
-            echo -e "${id}\n" >> "${wildman}"
+            family=$(grep -i "${id}" "${queryFamilyFile}" | awk -F ":" '{print $2}')
+            if [ -z "${family}" ]; then
+                family="wildman"
+                wildman="${familyDir}/wildman.txt"
+                echo 
+                echo -e "${id}\n" >> "${wildman}"
+            fi
         fi
+        if [ "${sex}" == "male" ]; then
+            for child in "${childrenArr[@]}"; do
+                echo "${child}:${family}" >> "${queryFamilyFile}"
+            done
+        fi
+            
         familyFile="${familyDir}/${family}.txt"
         echo -e "${id} ${name}\n" >> "${familyFile}"
     done
