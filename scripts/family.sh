@@ -75,9 +75,6 @@ exportFamily() {
             family=$(grep -i "${id}" "${queryFamilyFile}" | awk -F ":" '{print $2}')
             if [ -z "${family}" ]; then
                 family="wildman"
-                wildman="${familyDir}/wildman.txt"
-                echo 
-                echo -e "${id}\n" >> "${wildman}"
             fi
         fi
         if [ "${sex}" == "male" ]; then
