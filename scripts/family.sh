@@ -93,9 +93,9 @@ exportFamily() {
     fi
 
     #排序和去重
-    for file in ${familyList}; do
-        sort "${familyDir}/${file}" | uniq | sed '/^[ ]*$/d' > "${familyDir}/${file}"
-    done
+    # for file in ${familyList}; do
+    #     sort "${familyDir}/${file}" | uniq | sed '/^[ ]*$/d' > "${familyDir}/${file}"
+    # done
     echo -e "导出成功!\n"
 }
 
@@ -139,7 +139,7 @@ greenHat() {
         done
     done
     #删掉空行
-    cat ${greenHatFile} | sed '/^$/d' | uniq > "${greenHatFile}"
+    # cat ${greenHatFile} | sed '/^$/d' | uniq > "${greenHatFile}"
 
     base64Dir="${greenHatDir}/base64Dir"
     if [ ! -d "${base64Dir}" ]; then
@@ -148,6 +148,7 @@ greenHat() {
 
     #我这里之所以这样处理是因为我发现如果直接加密一个文件的话, 所有的加密字符会连在一起, 所以就这样又遍历里一遍QwQ
     base64File="${base64Dir}/base64.txt"
+    touch "${base64File}"
     while read line; do
         echo "${line}" | base64 >> "${base64File}"
     done < "${greenHatFile}"
